@@ -1,0 +1,411 @@
+{
+  "info": {
+    "_postman_id": "e180ee2f-6043-492e-8a1d-d446295bc90f",
+    "name": "Practice Software Testing API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56798495",
+    "_collection_link": "https://go.postman.co/collection/56798495-e180ee2f-6043-492e-8a1d-d446295bc90f?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get All Products",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();\r\nconst productId = response.data[1].id;\r\n\r\npm.collectionVariables.set(\"productId\", productId);\r\n\r\n\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response contains data array\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.data).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"Product objects contain expected fields\", function () {\r\n    const jsonData = pm.response.json();\r\n    const firstProduct = jsonData.data[0];\r\n\r\n    pm.expect(firstProduct).to.have.property(\"id\");\r\n    pm.expect(firstProduct).to.have.property(\"name\");\r\n    pm.expect(firstProduct).to.have.property(\"price\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.practicesoftwaretesting.com/products",
+          "protocol": "https",
+          "host": [
+            "api",
+            "practicesoftwaretesting",
+            "com"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Product by ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function() {\n    pm.response.to.have.status(200);\n});\n\npm.test(\"Response contains correct product ID\", function() {\n    const response = pm.response.json();\n    pm.expect(response.id).to.eql(pm.collectionVariables.get(\"productId\"));\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.practicesoftwaretesting.com/products/{{productId}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "practicesoftwaretesting",
+            "com"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Product with Invalid ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();\r\n\r\npm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\npm.test(\"Error message is correct\", function () {\r\n    pm.expect(response.message).to.eql(\"Requested item not found\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.practicesoftwaretesting.com/products/invalid-product-id",
+          "protocol": "https",
+          "host": [
+            "api",
+            "practicesoftwaretesting",
+            "com"
+          ],
+          "path": [
+            "products",
+            "invalid-product-id"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();\r\n\r\npm.collectionVariables.set(\"accessToken\",)\r\n\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response contains data array\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.data).to.be.an(\"array\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "access-control-allow-origin",
+            "value": "*"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, private"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Date",
+            "value": "Thu,08 Oct 2026 14:13:02 GMT"
+          },
+          {
+            "key": "server",
+            "value": "Apache/2.4.52 (Ubuntu)"
+          },
+          {
+            "key": "access-control-expose-headers",
+            "value": "Content-Disposition"
+          },
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.practicesoftwaretesting.com/users",
+          "protocol": "https",
+          "host": [
+            "api",
+            "practicesoftwaretesting",
+            "com"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();\r\n\r\npm.collectionVariables.set(\"accessToken\", response.access_token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"admin@practicesoftwaretesting.com\",\r\n  \"password\": \"welcome01\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.practicesoftwaretesting.com/users/login",
+          "protocol": "https",
+          "host": [
+            "api",
+            "practicesoftwaretesting",
+            "com"
+          ],
+          "path": [
+            "users",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post Create User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();\r\nconst requestBody = JSON.parse(pm.request.body.raw);\r\n\r\npm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Response contains user id\", function () {\r\n    pm.expect(response).to.have.property(\"id\");\r\n});\r\n\r\npm.test(\"First name is correct\", function () {\r\n    pm.expect(response.first_name).to.eql(requestBody.first_name);\r\n});\r\n\r\npm.test(\"Email is correct\", function () {\r\n    pm.expect(response.email).to.eql(requestBody.email);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"first_name\": \"Mehtap\",\r\n  \"last_name\": \"Doe\",\r\n  \"address\": {\r\n    \"street\": \"Street 1\",\r\n    \"house_number\": \"12\",\r\n    \"city\": \"City\",\r\n    \"state\": \"State\",\r\n    \"country\": \"Country\",\r\n    \"postal_code\": \"1234AA\"\r\n  },\r\n  \"phone\": \"0987654321\",\r\n  \"dob\": \"1970-01-01\",\r\n  \"password\": \"Mhtyp.1425\",\r\n  \"email\": \"test1234@example.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.practicesoftwaretesting.com/users/register",
+          "protocol": "https",
+          "host": [
+            "api",
+            "practicesoftwaretesting",
+            "com"
+          ],
+          "path": [
+            "users",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Put Update User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();\r\n\r\npm.test(\"Request was successful\", function () {\r\n    pm.expect(response.success).to.eql(true);\r\n})\r\n\r\npm.test(\"Status code is 200\", function() {\r\n    pm.response.to.have.status(200);\r\n})\r\n\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"first_name\": \"MehtapUpdated\",\r\n  \"last_name\": \"Doe\",\r\n  \"address\": {\r\n    \"street\": \"Street 1\",\r\n    \"house_number\": \"12\",\r\n    \"city\": \"City\",\r\n    \"state\": \"State\",\r\n    \"country\": \"Country\",\r\n    \"postal_code\": \"1234AA\"\r\n  },\r\n  \"phone\": \"0987654321\",\r\n  \"dob\": \"1970-01-01\",\r\n  \"password\": \"SuperSecure@123\",\r\n  \"email\": \"test1234@example.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.practicesoftwaretesting.com/users/01M4JD7TFAZ5KSFCYZN8JN7ZNS",
+          "protocol": "https",
+          "host": [
+            "api",
+            "practicesoftwaretesting",
+            "com"
+          ],
+          "path": [
+            "users",
+            "01M4JD7TFAZ5KSFCYZN8JN7ZNS"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete User by ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {\n    pm.response.to.have.status(204);\n});\n\npm.test(\"Response time is less than 500ms\", function () {\n    pm.expect(pm.response.responseTime).to.be.below(500);\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.practicesoftwaretesting.com/users/01m4jgrpaedat15ne5gydpj96f",
+          "protocol": "https",
+          "host": [
+            "api",
+            "practicesoftwaretesting",
+            "com"
+          ],
+          "path": [
+            "users",
+            "01m4jgrpaedat15ne5gydpj96f"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "productId",
+      "value": ""
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    }
+  ]
+}
